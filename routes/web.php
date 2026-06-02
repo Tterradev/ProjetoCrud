@@ -3,13 +3,14 @@
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::group([], function(){
     
-    //LIstar usuarios cadastrados.
+    //Listar usuarios cadastrados.
     //Possibilitar uma pesquisa dentro os usuarios cadastrados.
     Route::get('/usuarios', [UserController::class, 'index', 'role' => 'user.index']);
 

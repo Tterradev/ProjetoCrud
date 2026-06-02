@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Session;
 
 /**
  * UserController
@@ -12,13 +12,11 @@ use Illuminate\Http\Request;
  * @author Pedro Terra <phterra083@gmail.com>
  * @since 01/06/2026
  */
-class UserController extends Controller
-{
+class UserController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         
         $query = User::search($request);
 
@@ -34,31 +32,26 @@ class UserController extends Controller
 
     }
 
-   /**
-    * Visualizar vier de formulário para cadastrar um novo usuário
-    *
-    * @param Request $request
-    * @return ($view is null ? \Illuminate\Contracts\View\Factory : \Illuminate\Contracts\View\View)
-    */
-    public function create(Request $request)
-    {
+    public function create(Request $request) {
         $user = new User();
+
         return $this -> form($user);
     }
 
-    public function insert (Request $request)
-    {
-        //
+    public function insert (Request $request) {
+
+        //TODO Valider
+
+        $user = new User();
+
+        $this->save($user, $request);
+
+        Session::flash('sucess', 'O usuário foi criado com sucesso!');
+
+        return redirect('/usuarios');
     }
 
-    /**
-    * Visualizar vier de formulário para editar um usuário
-    *
-    * @param Request $request
-    * @return ($view is null ? \Illuminate\Contracts\View\Factory : \Illuminate\Contracts\View\View)
-    */
-    public function edit(Request $request, int $id)
-    {
+    public function edit(Request $request, int $id){
 
         $user = User::find($id);
         if($user){
@@ -73,33 +66,46 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id)
-    {
+    public function update(Request $request, int $id) {
         //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(int $id)
-    {
+    public function delete(int $id) {
         //
     }
 
 
-    /**
-     * Visualizar view de formulário
-     *
-     * @param User $user
-     * @return ($view is null ? \Illuminate\Contracts\View\Factory : \Illuminate\Contracts\View\View)
-     */
     private function form(User $user){
 
         $data = [
-            'data' => $user,
+            'user' => $user,
             
         ];
         return view('pages.user.form', $data);
 
+    }
+
+
+
+
+    /**
+     * Salvar alterações no usuário
+     *
+     * @param User $user
+     * @param Request $request
+     * @return void
+     */
+    private function save(User $user,Request $request) {
+
+         $user->name = $request->name;
+
+         $user->email= $request->email;
+
+         $user->password = bcrypt ($request->password);
+         
+         $user->save();
     }
 }
