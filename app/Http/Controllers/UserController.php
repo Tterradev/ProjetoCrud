@@ -66,8 +66,16 @@ class UserController extends Controller {
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id) {
-        //
+    public function update(Request $request) {
+        
+        $user = User::find($request->id);
+
+        $this->save($user, $request);
+
+        Session::flash('sucess', 'O usuário foi criado com sucesso!');
+
+        return redirect('/usuarios');
+
     }
 
     /**
@@ -104,8 +112,16 @@ class UserController extends Controller {
 
          $user->email= $request->email;
 
-         $user->password = bcrypt ($request->password);
-         
+         if($request -> password){
+            $user->password = bcrypt ($request->password);
+         }
+
          $user->save();
+    }
+
+    private function validation(Resquest $request) {
+
+        
+
     }
 }

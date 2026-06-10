@@ -10,6 +10,8 @@
 
         @csrf
 
+        @method($user->id ? 'PUT':'POST')
+
         <input type="hidden" name="id" value="{{ $user->id }}">
 
         <div class="form-group">

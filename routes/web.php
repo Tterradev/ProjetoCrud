@@ -24,9 +24,9 @@ Route::group([], function(){
     Route::get('/usuario/{id}/editar', [UserController::class, 'edit', 'role' => 'user.update']);
 
     //Atualizar um user ja cadastrado
-    Route::put('/usuario', [UserController::class, 'update', 'role' => 'user.update']);
+    Route::put('/usuarios', [UserController::class, 'update', 'role' => 'user.update']);
 
     //Deletar um usuario
-    Route::delete('usuario', [UserController::class, 'delete', 'role' => 'user.delete']);
+    Route::delete('/usuarios', [UserController::class, 'delete', 'role' => 'user.delete']);
     
 });
