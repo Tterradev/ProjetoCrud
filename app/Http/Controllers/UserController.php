@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * UserController
@@ -40,7 +41,17 @@ class UserController extends Controller {
 
     public function insert (Request $request) {
 
-        //TODO Valider
+        $validate = $this ->validation($request); 
+
+        if($validate->fails()) {
+
+            $errors = $validations->errors()->all();
+
+            dd($errors);
+
+            return back()->withInput() ->withErrors($errors);
+
+        }
 
         $user = new User();
 
@@ -119,9 +130,41 @@ class UserController extends Controller {
          $user->save();
     }
 
-    private function validation(Resquest $request) {
+    private function validation(Request $request) {
 
-        
+        $rules = [
+            'test'=> ['required'],
+            'test3'=> ['required'],
+            'name' => ['required', 'string', 'max:30'],
+            'email'=> ['required', 'string', 'max:50'],
+            'password'=>['string', 'min:8', 'max:16']
+        ];
+
+        $method = $request->method();
+
+        if ($method == 'PUT') {
+
+            $rules['id'] = ['required', 'integer', 'exists:user,id'];
+
+            array_unshift($rules['password'], 'nullable');
+
+        }
+
+        else {
+
+             array_unshift($rules['password'], 'required');
+
+        }
+
+        $data = $request->all();
+
+        $validator = Validator::make($data, $rules);
+
+        return $validator;
+
+        dd($request);
+
+
 
     }
 }

@@ -3,6 +3,8 @@
 @section('content')
 
 <div class="page page-user page-index">
+
+    @include('components.alert')
     
     <h1> Listagem de usuários </h1>
 
