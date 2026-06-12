@@ -11,7 +11,6 @@
     <form method="POST" action="{{ url('/usuarios') }}">
 
         @csrf
-
         @method($user->id ? 'PUT':'POST')
 
         <input type="hidden" name="id" value="{{ $user->id }}">
@@ -19,7 +18,7 @@
         <div class="form-group">
 
             <label for="">Nome</label>
-            <input type="text" name="name" class="form-control" value="{{ old('name'), $user->name }}" maxlength="50" required></input>
+            <input type="text" name="name" class="form-control" value="{{ old ('name',$user->name) }}" maxlength="50" required></input>
 
         </div>
         
@@ -27,7 +26,7 @@
         <div class="form-group">
 
             <label for="">E-mail</label>
-            <input type="email" name="email" class="form-control" value="{{ old('email'), $user->email }}" maxlength="50" required></input>
+            <input type="email" name="email" class="form-control" value="{{ old ('email',$user->email) }}" maxlength="50" required></input>
 
         </div>
 

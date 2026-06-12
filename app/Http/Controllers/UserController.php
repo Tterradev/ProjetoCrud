@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 /**
  * UserController
@@ -45,12 +46,9 @@ class UserController extends Controller {
 
         if($validate->fails()) {
 
-            $errors = $validations->errors()->all();
-
-            dd($errors);
+            $errors = $validate->errors();
 
             return back()->withInput() ->withErrors($errors);
-
         }
 
         $user = new User();
@@ -78,12 +76,23 @@ class UserController extends Controller {
      * Update the specified resource in storage.
      */
     public function update(Request $request) {
+
+        $validate = $this->validation($request); 
+
+        if($validate->fails()) {
+
+            $errors = $validate->errors();
+
+            Session::flash('error', 'Ocorreu um erro ao salvar o usuário!');
+
+            return back()->withInput()->withErrors($errors);
+        }
         
         $user = User::find($request->id);
 
         $this->save($user, $request);
 
-        Session::flash('sucess', 'O usuário foi criado com sucesso!');
+        Session::flash('success', 'O usuário foi criado com sucesso!');
 
         return redirect('/usuarios');
 
@@ -107,9 +116,6 @@ class UserController extends Controller {
 
     }
 
-
-
-
     /**
      * Salvar alterações no usuário
      *
@@ -132,11 +138,15 @@ class UserController extends Controller {
 
     private function validation(Request $request) {
 
+        $uniqueEmailRule = Rule::unique('users', 'email');
+
+        if($request->id) {
+            $uniqueEmailRule->ignore($request->id);
+        }
+
         $rules = [
-            'test'=> ['required'],
-            'test3'=> ['required'],
             'name' => ['required', 'string', 'max:30'],
-            'email'=> ['required', 'string', 'max:50'],
+            'email'=> ['required', 'string', 'max:50', $uniqueEmailRule],
             'password'=>['string', 'min:8', 'max:16']
         ];
 
@@ -144,10 +154,9 @@ class UserController extends Controller {
 
         if ($method == 'PUT') {
 
-            $rules['id'] = ['required', 'integer', 'exists:user,id'];
-
             array_unshift($rules['password'], 'nullable');
 
+            $rules['id'] = ['required', 'integer', 'exists:users,id'];
         }
 
         else {
@@ -161,10 +170,6 @@ class UserController extends Controller {
         $validator = Validator::make($data, $rules);
 
         return $validator;
-
-        dd($request);
-
-
 
     }
 }

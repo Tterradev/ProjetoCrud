@@ -8,6 +8,32 @@
     
     <h1> Listagem de usuários </h1>
 
+    <form method="GET "action="{{ url('/usuarios') }}">
+
+        <div class="form-group">
+            <label for="">Nome</label>
+            <input type="text" name="name" class="form-control"/>
+        </div>
+
+        <div class="form-group">
+            <label for="">Email</label>
+            <input type="text" name="email" class="form-control"/>
+        </div>
+        
+        <div class="form-group">
+            <label for="">Qtde. de registros por página</label>
+            <select name="limit" id="">
+                <option value="10">10</options>
+                <option value="25">25</options>
+                <option value="50">50</options>
+                <option value="100">100</options>
+            </select>    
+        </div>
+
+        <button type="submit">Atualizar</button>
+
+    </form>
+
     <div class="table-responsive">
         
         <table class="table table-striped"> 
