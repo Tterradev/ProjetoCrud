@@ -12,24 +12,18 @@
 
         <div class="form-group">
             <label for="">Nome</label>
-            <input type="text" name="name" class="form-control"/>
+            <input type="text" name="name" class="form-control" value="{{ Request::get('name') }}"/>
         </div>
 
         <div class="form-group">
             <label for="">Email</label>
-            <input type="text" name="email" class="form-control"/>
+            <input type="text" name="email" class="form-control" value="{{ Request::get('email') }}"/>
         </div>
         
-        <div class="form-group">
-            <label for="">Qtde. de registros por página</label>
-            <select name="limit" id="">
-                <option value="10">10</options>
-                <option value="25">25</options>
-                <option value="50">50</options>
-                <option value="100">100</options>
-            </select>    
-        </div>
+        @include('components.limit')
 
+        <a href="{{ url('/usuarios') }}">Limpar Filtro</a>
+        
         <button type="submit">Atualizar</button>
 
     </form>

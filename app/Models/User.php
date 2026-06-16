@@ -6,15 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 
-class User extends Model
-{
+class User extends Model {
+
+    use HasFactory;
+
     public function scopeSearch($query, Request $request) {
 
-
-
-            // if($request->search) {
-            //     //TODO . . .
-            // }
-
+        if ($request->name) {
+            $query->where('name', 'ilike', '%'.$request->name.'%');
         }
+
+        if ($request->email) {
+            $query->where('email', 'ilike', '%'.$request->email.'%');
+        }    
     }
+}
