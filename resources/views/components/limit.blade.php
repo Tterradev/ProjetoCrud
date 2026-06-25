@@ -2,7 +2,7 @@
 
     $list = [10,25,50,100];
 
-    $selected = Request::get('limit', $list [0]);
+    $selected = Request::get('limit', $list[0]);
 
 @endphp
 
@@ -14,7 +14,7 @@
 
         @foreach ($list as $value)
 
-             <option value="{{ $value }}" {{ $value == $selected ? 'selected' : '' }}>{{ $value }}</options>
+             <option value="{{ $value }}" {{ $value == $selected ? 'selected' : '' }}>{{ $value }}</option>
 
         @endforeach
 

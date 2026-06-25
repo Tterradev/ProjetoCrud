@@ -2,75 +2,77 @@
 
 @section('content')
 
-<div class="page page-user page-index">
+    <div class="page page-user page-index">
 
-    @include('components.alert')
-    
-    <h1> Listagem de usuários </h1>
-
-    <form method="GET "action="{{ url('/usuarios') }}">
-
-        <div class="form-group">
-            <label for="">Nome</label>
-            <input type="text" name="name" class="form-control" value="{{ Request::get('name') }}"/>
-        </div>
-
-        <div class="form-group">
-            <label for="">Email</label>
-            <input type="text" name="email" class="form-control" value="{{ Request::get('email') }}"/>
-        </div>
+        @include('components.alert')
         
-        @include('components.limit')
+        <h1> Listagem de usuários </h1>
 
-        <a href="{{ url('/usuarios') }}">Limpar Filtro</a>
-        
-        <button type="submit">Atualizar</button>
+        <form method="GET "action="{{ url('/usuarios') }}">
 
-    </form>
+            <div class="form-group">
+                <label for="">Nome</label>
+                <input type="text" name="name" class="form-control" value="{{ Request::get('name') }}"/>
+            </div>
 
-    <div class="table-responsive">
-        
-        <table class="table table-striped"> 
+            <div class="form-group">
+                <label for="">Email</label>
+                <input type="text" name="email" class="form-control" value="{{ Request::get('email') }}"/>
+            </div>
+            
+            @include('components.limit')
 
-            <thead>
+            <a href="{{ url('/usuarios') }}">Limpar Filtro</a>
+            
+            <button type="submit">Atualizar</button>
 
-                <tr>
+        </form>
 
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>E-mail</th>
-                    <th>Ações</th>
+        <div class="table-responsive">
+            
+            <table class="table table-striped"> 
 
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                @foreach ($list as $user)
+                <thead>
 
                     <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>
-                            <a href="{{ url('/usuario/'.$user->id.'/editar') }}">Editar usuario</a>
-                            <button>Remover usuario</button>
-                        </td>
+
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Ações</th>
+
                     </tr>
-                    
-                @endforeach
 
-            </tbody>
+                </thead>
 
-        </table>
+                <tbody>
+
+                    @foreach ($list as $user)
+
+                        <tr>
+                            <td>{{ $user->id }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                                <a href="{{ url('/usuario/'.$user->id.'/editar') }}">Editar usuario</a>
+                                <button>Remover usuario</button>
+                            </td>
+                        </tr>
+                        
+                    @endforeach
+
+                </tbody>
+
+            </table>
+
+            {{  $list->links() }}
+
+        </div>
+
+        <a href="{{ url('/usuarios/cadastrar') }}">Cria um novo usuário</a>
 
     </div>
 
-    <a href="{{ url('/usuarios/cadastrar') }}">Cria um novo usuário</a>
-
-</div>
-
-    <h1>hello word</h1>
+        <h1>hello word</h1>
 
 @endsection
