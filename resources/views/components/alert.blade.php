@@ -22,10 +22,10 @@
 
 @elseif ($errorsList)
 
-    <div class="alert alert-danger role="alert">
+    <div class="alert alert-danger" role="alert">
         <ul>
             @foreach ($errorsList as $errorsMessage)
-                <li>{{ $errors }}</li>
+                <li>{{ $errorsMessage }}</li>
             @endforeach
         </ul>
     </div>
