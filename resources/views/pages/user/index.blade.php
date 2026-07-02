@@ -55,7 +55,12 @@
                             <td>{{ $user->email }}</td>
                             <td>
                                 <a href="{{ url('/usuario/'.$user->id.'/editar') }}">Editar usuario</a>
-                                <button>Remover usuario</button>
+                                <form action="{{ url('/usuario') }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="hidden" name="id" value="{{ $user->id }}">
+                                    <button>Remover usuario</button>
+                                </form>
                             </td>
                         </tr>
                         
